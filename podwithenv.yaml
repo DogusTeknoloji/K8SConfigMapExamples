@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: environmentvariables-pod
+spec:
+  containers:
+    - name: environmentvariables-busybox
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "env" ]
+      #Pod Çalıştıktan sonra konteyner logunda tüm ortam değişkenlerini
+      #Görüntüleyebileceğiz
+      env:
+      - name: PLANE_BRAND #Statik degree sahip bir env variable örneği. 
+        value: "STATIC_AIRBUS"
+      - name: CAR_BRAND #Burada ise ortam değişkenimizi     bir configmap içinden okuyacağız
+        valueFrom:
+          configMapKeyRef:
+            name: my-config-map #my-config-map’den car.brand key’ini value’su
+            key: car.brand
+  restartPolicy: Never
