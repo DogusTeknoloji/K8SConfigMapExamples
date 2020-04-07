@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-as-volume-pod
+spec:
+  containers:
+    - name: cm-as-volume-busybox
+      image: k8s.gcr.io/busybox
+      command: ["/bin/sh","-c"]
+      args:
+        - ls /etc/settings/;
+          cat /etc/settings/appsettings.json;
+          echo appsettings_development.json dosyamız;
+          cat /etc/settings/appsettings_development.json;
+          sleep 100000;
+      volumeMounts:
+        - name: appsettings-config-volume
+          mountPath: /etc/settings/
+  volumes:
+    - name: appsettings-config-volume
+      configMap:
+          defaultMode: 420 #Dosya izinlerini burda set edebiliriz
+          name: multiconffile-configmap
+  restartPolicy: Never
