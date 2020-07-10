@@ -10,7 +10,7 @@ spec:
       args:
         - ls /etc/settings/;
           cat /etc/settings/appsettings.json;
-          echo appsettings_development.json dosyamız;
+          echo appsettings_development.json;
           cat /etc/settings/appsettings_development.json;
           sleep 100000;
       volumeMounts:
